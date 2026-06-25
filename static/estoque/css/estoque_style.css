@@ -1,0 +1,54 @@
+/* Painéis Operacionais Dark */
+.custom-card-panel {
+    background-color: var(--fractaw-card-bg) !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+}
+
+.metric-card {
+    background-color: var(--fractaw-card-bg);
+    border: none;
+    border-radius: 8px;
+}
+
+.icon-box {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+/* Opacidades Controladas */
+.bg-primary-light { background-color: rgba(244, 185, 66, 0.1); }
+.bg-warning-light { background-color: rgba(255, 200, 87, 0.1); }
+.bg-danger-light  { background-color: rgba(220, 53, 69, 0.12); }
+.bg-info-light    { background-color: rgba(79, 167, 163, 0.1); }
+
+/* Customização de Tabelas de Ativos */
+.custom-table-dark {
+    background-color: transparent !important;
+    margin: 0;
+}
+
+.custom-table-dark thead th {
+    background-color: rgba(0, 0, 0, 0.18) !important;
+    color: var(--fractaw-text-muted) !important;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 12px;
+}
+
+.custom-table-dark tbody td {
+    background-color: transparent !important;
+    color: var(--fractaw-text) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 14px 12px;
+}
+
+.custom-table-dark tbody tr:hover td {
+    background-color: rgba(255, 255, 255, 0.01) !important;
+}

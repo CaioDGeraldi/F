@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Fractaw - Gestão de Estoque{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'estoque/css/estoque_style.css' %}">
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active text-white" aria-current="page">Gestão de Estoque</li>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-4">
+
+    <!-- Cabeçalho do Módulo -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2"
+        style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div>
+            <h1 class="h3 mb-0 text-white"><i class="bi bi-boxes text-primary-custom me-2"></i>Gestão de Estoque</h1>
+            <p class="text-muted-custom mb-0 small">Interface dedicada ao controle de ativos e fluxo de mercadorias em
+                tempo real.</p>
+        </div>
+        <div>
+            <button class="btn btn-launcher btn-sm" data-bs-toggle="modal" data-bs-target="#modalMovimentacao">
+                <i class="bi bi-plus-minus me-1"></i> Movimentação Manual
+            </button>
+        </div>
+    </div>
+
+    <!-- Cards de Métricas e Alertas -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card metric-card shadow-sm border-0 border-start border-primary border-4">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted-custom text-uppercase small mb-1">Cadastro de SKU Detalhado</h6>
+                        <span class="h3 mb-0 fw-bold text-white">{{ total_skus|default:"1.240" }}</span>
+                        <small class="d-block text-muted-custom mt-1">Suporte a EAN e categorias</small>
+                    </div>
+                    <div class="icon-box bg-primary-light text-primary-custom"><i class="bi bi-tags-fill"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card metric-card shadow-sm border-0 border-start border-warning border-4">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted-custom text-uppercase small mb-1">Alerta de Estoque Mínimo</h6>
+                        <span class="h3 mb-0 fw-bold text-primary-custom">{{ alertas_ruptura|default:"14" }}</span>
+                        <small class="d-block text-muted-custom mt-1">Evitando ruptura de fluxo</small>
+                    </div>
+                    <div class="icon-box bg-warning-light text-primary-custom"><i
+                            class="bi bi-exclamation-octagon-fill"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card metric-card shadow-sm border-0 border-start border-danger border-4">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted-custom text-uppercase small mb-1">Produtos Esgotados</h6>
+                        <span class="h3 mb-0 fw-bold text-danger">{{ esgotados|default:"3" }}</span>
+                        <small class="d-block text-muted-custom mt-1">Necessita reposição imediata</small>
+                    </div>
+                    <div class="icon-box bg-danger-light text-danger"><i class="bi bi-x-octagon-fill"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela de Controle de Saldo -->
+    <div class="card shadow-sm border-0 custom-card-panel">
+        <div class="card-header border-0 bg-transparent py-3">
+            <h5 class="m-0 text-white fw-bold"><i class="bi bi-bezier2 me-2 text-accent-custom"></i>Controle de Saldo e
+                Ativos</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0 custom-table-dark">
+                <thead>
+                    <tr>
+                        <th>Código / SKU / EAN</th>
+                        <th>Nome do Produto</th>
+                        <th>Categoria</th>
+                        <th class="text-center">Qtd. Mínima</th>
+                        <th class="text-center">Saldo Atual</th>
+                        <th>Unidade</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in produtos %}
+                    <tr>
+                        <td class="fw-bold text-accent-custom">{{ item.sku }}</td>
+                        <td>
+                            <div class="text-white fw-bold">{{ item.nome }}</div>
+                        </td>
+                        <td><span class="badge bg-dark border border-secondary border-opacity-25 text-muted-custom">{{
+                                item.categoria }}</span></td>
+                        <td class="text-center text-muted-custom">{{ item.qtd_minima }}</td>
+                        <td
+                            class="text-center fw-bold {% if item.qtd_atual <= item.qtd_minima %}text-warning{% else %}text-white{% endif %}">
+                            {{ item.qtd_atual }}</td>
+                        <td><span class="badge bg-dark border border-secondary border-opacity-25 text-muted-custom">{{
+                                item.unidade }}</span></td>
+                        <td>
+                            {% if item.qtd_atual == 0 %}
+                            <span class="badge bg-danger-light text-danger">Esgotado</span>
+                            {% elif item.qtd_atual <= item.qtd_minima %} <span
+                                class="badge bg-warning-light text-primary-custom">Estoque Baixo</span>
+                                {% else %}
+                                <span class="badge bg-info-light text-accent-custom">Normal</span>
+                                {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <!-- Dados estáticos demonstrativos da engenharia do módulo -->
+                    <tr>
+                        <td class="fw-bold text-accent-custom">SKU-44210-EAN</td>
+                        <td>
+                            <div class="text-white fw-bold">Painel de Led Modular P3</div>
+                        </td>
+                        <td><span
+                                class="badge bg-dark border border-secondary border-opacity-25 text-muted-custom">Componentes</span>
+                        </td>
+                        <td class="text-center text-muted-custom">10</td>
+                        <td class="text-center text-white fw-bold">45</td>
+                        <td><span
+                                class="badge bg-dark border border-secondary border-opacity-25 text-muted-custom">UN</span>
+                        </td>
+                        <td><span class="badge bg-info-light text-accent-custom">Normal</span></td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold text-accent-custom">SKU-78910-EAN</td>
+                        <td>
+                            <div class="text-white fw-bold">Bobina de Aço Galvanizado A36</div>
+                        </td>
+                        <td><span
+                                class="badge bg-dark border border-secondary border-opacity-25 text-muted-custom">Matéria-Prima</span>
+                        </td>
+                        <td class="text-center text-muted-custom">5</td>
+                        <td class="text-center text-warning fw-bold">3</td>
+                        <td><span
+                                class="badge bg-dark border border-secondary border-opacity-25 text-muted-custom">MTS</span>
+                        </td>
+                        <td><span class="badge bg-warning-light text-primary-custom">Estoque Baixo</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

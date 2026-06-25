@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Fractaw - Camada WhatsApp{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'whatsapp/css/whatsapp_style.css' %}">
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active text-white" aria-current="page">Automação WhatsApp</li>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-4">
+
+    <!-- Cabeçalho do Módulo -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2"
+        style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div>
+            <h1 class="h3 mb-0 text-white"><i class="bi bi-whatsapp text-success me-2"></i>Camada de Comunicação</h1>
+            <p class="text-muted-custom mb-0 small">Notificações automatizadas em tempo real, lembretes transacionais e
+                gerenciamento HSM.</p>
+        </div>
+        <div>
+            <span
+                class="badge {% if conexao_ativa %}bg-success-light text-success{% else %}bg-danger-light text-danger{% endif %} p-2 me-2 border {% if conexao_ativa %}border-success{% else %}border-danger{% endif %} border-opacity-25">
+                <i class="bi bi-circle-fill me-1 small"></i> {% if conexao_ativa %}Instância Ativa{% else
+                %}Desconectado{% endif %}
+            </span>
+            <button class="btn btn-launcher btn-sm"><i class="bi bi-qr-code me-1"></i> Sincronizar Meta HSM</button>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Coluna Esquerda: Logs de Disparos Automáticos -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 custom-card-panel">
+                <div class="card-header border-0 bg-transparent py-3">
+                    <h5 class="m-0 text-white fw-bold"><i class="bi bi-chat-left-text me-2 text-accent-custom"></i>Log
+                        de Transações Recentes</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 custom-table-dark">
+                        <thead>
+                            <tr>
+                                <th>Destinatário</th>
+                                <th>Tipo de Evento</th>
+                                <th>Mensagem Enviada</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for msg in log_mensagens %}
+                            <tr>
+                                <td>
+                                    <div class="text-white fw-bold">{{ msg.cliente }}</div>
+                                    <small class="text-muted-custom">{{ msg.numero }}</small>
+                                </td>
+                                <td><span
+                                        class="badge bg-dark border border-secondary border-opacity-25 text-muted-custom">{{
+                                        msg.tipo }}</span></td>
+                                <td class="text-truncate text-muted-custom" style="max-width: 220px;">{{ msg.texto }}
+                                </td>
+                                <td><span class="text-success small"><i class="bi bi-check2-all me-1"></i>Enviado</span>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <!-- Dados estáticos simulando os fluxos transacionais -->
+                            <tr>
+                                <td>
+                                    <div class="text-white fw-bold">Logtech Brasil S.A.</div>
+                                    <small class="text-muted-custom">+55 (19) 99999-0000</small>
+                                </td>
+                                <td><span
+                                        class="badge bg-dark border border-secondary border-opacity-25 text-muted-custom">PDF
+                                        de Orçamento</span></td>
+                                <td class="text-truncate text-muted-custom" style="max-width: 220px;">Segue anexo o PDF
+                                    do orçamento faturado para seu controle...</td>
+                                <td><span class="text-success small"><i class="bi bi-check2-all me-1"></i>Enviado
+                                        (HSM)</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="text-white fw-bold">Alfa Indústrias Ltda</div>
+                                    <small class="text-muted-custom">+55 (11) 98888-1111</small>
+                                </td>
+                                <td><span
+                                        class="badge bg-dark border border-secondary border-opacity-25 text-muted-custom">Chave
+                                        Pix Copia-e-Cola</span></td>
+                                <td class="text-truncate text-muted-custom" style="max-width: 220px;">Seu boleto vence
+                                    em 48 horas. Utilize a chave copia e cola...</td>
+                                <td><span class="text-success small"><i class="bi bi-check2-all me-1"></i>Enviado
+                                        (Pix)</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna Direita: Controle de Gatilhos e Chatbot Interativo -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 custom-card-panel p-3 mb-4">
+                <h5 class="text-white fw-bold mb-3"><i class="bi bi-toggle-on text-primary-custom me-2"></i>Gatilhos
+                    Autônomos</h5>
+                <p class="text-muted-custom small">Configure quais ações do ecossistema disparam mensagens transacionais
+                    sem intervenção humana:</p>
+
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="gatVendas" checked>
+                    <label class="form-check-label text-white small fw-bold" for="gatVendas">Notificar Faturamento
+                        Comercial</label>
+                    <div class="text-muted-custom small-info">Envia PDFs de orçamentos e pedidos imediatamente.</div>
+                </div>
+
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="gatFinanceiro" checked>
+                    <label class="form-check-label text-white small fw-bold" for="gatFinanceiro">Régua de Cobrança
+                        Transacional</label>
+                    <div class="text-muted-custom small-info">Lembretes automatizados de boletos e chaves Pix.</div>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="gatChatbot" checked>
+                    <label class="form-check-label text-white small fw-bold" for="gatChatbot">Chatbot Interativo
+                        Habilitado</label>
+                    <div class="text-muted-custom small-info">Menu de consulta de status de pedido ativo na Meta.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

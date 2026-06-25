@@ -1,0 +1,46 @@
+/* Customizações Estéticas Interativas do Fractaw Launcher */
+
+/* Cards de Módulo */
+.module-card {
+    background-color: var(--fractaw-card-bg) !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.module-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(79, 167, 163, 0.3) !important; /* Bordas acendem em Azul-Petróleo */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Invólucro dos Ícones */
+.icon-wrapper {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+}
+
+/* Opacidades Controladas para Fundos de Ícones em Dark Mode */
+.bg-warning-light { background-color: rgba(244, 185, 66, 0.1); }
+.bg-primary-light { background-color: rgba(255, 200, 87, 0.1); }
+.bg-info-light    { background-color: rgba(79, 167, 163, 0.1); }
+.bg-success-light { background-color: rgba(25, 135, 84, 0.15); }
+
+/* Botões do Launcher */
+.btn-launcher {
+    background-color: transparent;
+    border: 1px solid var(--fractaw-accent);
+    color: var(--fractaw-accent);
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-launcher:hover {
+    background-color: var(--fractaw-accent);
+    color: var(--fractaw-bg);
+    box-shadow: 0 0 15px rgba(79, 167, 163, 0.4);
+}
