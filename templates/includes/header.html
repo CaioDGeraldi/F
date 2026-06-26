@@ -1,9 +1,7 @@
-<header class="shadow-sm"
-    style="background-color: var(--fractaw-card-bg); border-bottom: 1px solid rgba(255,255,255,0.05);">
+<header class="shadow-sm" style="background-color: var(--fractaw-card-bg); border-bottom: 1px solid rgba(255,255,255,0.05);">
     <nav class="navbar navbar-expand-lg navbar-dark container-fluid px-4 py-3">
         <a class="navbar-brand fw-bold fs-4 text-primary-custom" href="/">
-            <i class="bi bi-bezier2 me-2 text-accent-custom"></i>Fractaw <span
-                class="fw-light text-white">Modules</span>
+            <i class="bi bi-columns-gap"></i></i> Fractaw <span class="fw-light text-white">Modules</span>
         </a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navFractaw">
             <span class="navbar-toggler-icon"></span>
@@ -21,14 +19,4 @@
             </ul>
         </div>
     </nav>
-
-    <div class="py-2 px-4" style="background-color: rgba(0, 0, 0, 0.15); border-top: 1px solid rgba(255,255,255,0.02);">
-        <nav aria-label="breadcrumb" class="container-fluid m-0">
-            <ol class="breadcrumb m-0 small">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted-custom"><i
-                            class="bi bi-house-door"></i> Fractaw</a></li>
-                {% block breadcrumb %}{% endblock %}
-            </ol>
-        </nav>
-    </div>
 </header>

@@ -7,3 +7,5 @@ urlpatterns = [
     path('estoque/', include('estoque.urls')),
     path('whatsapp/', include('whatsapp.urls')),
 ]
+
+handler404 = 'django.views.defaults.page_not_found'
